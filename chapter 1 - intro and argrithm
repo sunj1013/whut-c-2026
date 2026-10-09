@@ -1,1 +1,1070 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C 程序设计基础 · 第 1 章 概述与算法 · 讲义</title>
+<style>
+  /* 使用 Word 兼容的简单 CSS */
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.8;
+    color: #22303c;
+    background: #eef3f8;
+  }
+  .page {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid #d6e2ee;
+    padding: 0 0 60px 0;
+  }
+  /* 封面 */
+  .cover {
+    background: #1a6fb5;
+    color: #ffffff;
+    padding: 50px 48px 40px 48px;
+  }
+  .cover h1 {
+    margin: 0 0 8px 0;
+    font-size: 2em;
+    letter-spacing: 2px;
+  }
+  .cover h2 {
+    margin: 0 0 26px 0;
+    font-weight: normal;
+    font-size: 1.15em;
+    color: #bcd9f2;
+    letter-spacing: 1px;
+  }
+  .cover .meta {
+    font-size: 0.95em;
+    color: #d7e8f7;
+    border-top: 1px solid #7fb2dd;
+    padding-top: 16px;
+  }
+  /* 正文 */
+  main {
+    padding: 8px 48px 0 48px;
+  }
+  h2.chapter {
+    margin: 40px 0 18px 0;
+    padding: 10px 18px;
+    font-size: 1.4em;
+    color: #ffffff;
+    background: #1a6fb5;
+    border-left: 6px solid #e8720c;
+  }
+  h3.section {
+    margin: 32px 0 14px 0;
+    padding-left: 14px;
+    font-size: 1.2em;
+    color: #124f83;
+    border-left: 6px solid #1a6fb5;
+  }
+  h4.sub {
+    margin: 24px 0 10px 0;
+    font-size: 1.05em;
+    color: #1d5b8e;
+  }
+  h4.sub::before {
+    content: "▍";
+    color: #e8720c;
+    margin-right: 6px;
+    font-size: 0.9em;
+  }
+  p {
+    margin: 10px 0;
+  }
+  ul, ol {
+    padding-left: 1.9em;
+    margin: 10px 0;
+  }
+  li {
+    margin: 5px 0;
+  }
+  ul > li::marker {
+    color: #1a6fb5;
+  }
+  ol > li::marker {
+    color: #1a6fb5;
+    font-weight: bold;
+  }
+  /* 提示框 */
+  .box {
+    border-radius: 0;
+    padding: 14px 20px;
+    margin: 16px 0;
+    border-left: 5px solid #1a6fb5;
+    background: #e8f2fb;
+  }
+  .box.tip {
+    border-left-color: #2e8b57;
+    background: #eaf7ef;
+  }
+  .box.warn {
+    border-left-color: #e8720c;
+    background: #fdf1e4;
+  }
+  .box.key {
+    border-left-color: #8e44ad;
+    background: #f5ecfa;
+  }
+   .box.keysummary {
+    border-left-color: #e46b0e;
+    background: #f7e7d8;
+  }
+  .box .label {
+    display: inline-block;
+    font-weight: bold;
+    margin-right: 8px;
+    color: #124f83;
+  }
+  .box.tip .label {
+    color: #2e8b57;
+  }
+  .box.warn .label {
+    color: #b95a05;
+  }
+  .box.key .label {
+    color: #7d3c98;
+  }
+  /* 表格 */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 0.94em;
+    background: #ffffff;
+  }
+  caption {
+    caption-side: top;
+    text-align: left;
+    font-weight: bold;
+    color: #124f83;
+    padding-bottom: 8px;
+  }
+  th, td {
+    border: 1px solid #d6e2ee;
+    padding: 9px 12px;
+    vertical-align: top;
+  }
+  thead th {
+    background: #1a6fb5;
+    color: #ffffff;
+    font-weight: 600;
+    text-align: left;
+  }
+  tbody tr:nth-child(even) {
+    background: #f7fafd;
+  }
+  tbody th {
+    background: #eaf3fb;
+    color: #124f83;
+    text-align: left;
+  }
+  /* 代码 */
+  pre {
+    background: #1e2a35;
+    color: #e6edf3;
+    padding: 16px 20px;
+    border-radius: 0;
+    overflow-x: auto;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.9em;
+    line-height: 1.65;
+    margin: 14px 0;
+  }
+  pre .cmt {
+    color: #7f9bab;
+  }
+  pre .kw {
+    color: #7cc7ff;
+  }
+  pre .str {
+    color: #ffcc80;
+  }
+  code.inline {
+    background: #eef3f8;
+    color: #c0392b;
+    padding: 1px 6px;
+    border-radius: 0;
+    font-family: Consolas, monospace;
+    font-size: 0.92em;
+  }
+  /* 例题 / 习题 */
+  .example {
+    border: 1px solid #d6e2ee;
+    border-radius: 0;
+    margin: 20px 0;
+    overflow: hidden;
+  }
+  .example > .title {
+    background: #eaf3fb;
+    color: #124f83;
+    font-weight: bold;
+    padding: 9px 18px;
+    border-bottom: 1px solid #d6e2ee;
+  }
+  .example > .body {
+    padding: 6px 20px 16px 20px;
+  }
+  .exercise {
+    border: 1px dashed #b9cfe4;
+    border-radius: 0;
+    margin: 18px 0;
+    padding: 14px 20px;
+    background: #fbfdff;
+  }
+  .exercise .qhead {
+    font-weight: bold;
+    color: #124f83;
+    margin-bottom: 6px;
+  }
+  details {
+    margin: 10px 0 0 0;
+    border-top: 1px dashed #cfe0ee;
+    padding-top: 8px;
+  }
+  summary {
+    cursor: pointer;
+    color: #e8720c;
+    font-weight: bold;
+    outline: none;
+    user-select: none;
+  }
+  summary:hover {
+    text-decoration: underline;
+  }
+  /* 其他 */
+  .flow {
+    font-family: Consolas, monospace;
+    background: #f3f7fb;
+    border: 1px solid #d6e2ee;
+    border-radius: 0;
+    padding: 14px 18px;
+    margin: 14px 0;
+    white-space: pre;
+    overflow-x: auto;
+    font-size: 0.9em;
+    line-height: 1.7;
+    color: #204060;
+  }
+  .tag {
+    display: inline-block;
+    background: #e8720c;
+    color: #ffffff;
+    font-size: 0.78em;
+    padding: 1px 9px;
+    border-radius: 0;
+    margin-right: 8px;
+    vertical-align: 2px;
+    letter-spacing: 0.5px;
+  }
+  .tag.blue {
+    background: #1a6fb5;
+  }
+  .tag.green {
+    background: #2e8b57;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid #d6e2ee;
+    margin: 36px 0;
+  }
+  .backtop {
+    display: block;
+    text-align: right;
+    font-size: 0.85em;
+    color: #1a6fb5;
+    text-decoration: none;
+    margin-top: 8px;
+  }
+  .backtop:hover {
+    text-decoration: underline;
+  }
+  footer {
+    margin-top: 48px;
+    padding: 22px 48px;
+    background: #f5f7fa;
+    border-top: 1px solid #d6e2ee;
+    text-align: center;
+    font-size: 0.88em;
+    color: #6b7d8d;
+  }
+  /* 图片占位符 */
+  .img-placeholder {
+    display: block;
+    width: 100%;
+    min-height: 120px;
+    border: 2px dashed #b0c4de;
+    background: #f8fbff;
+    color: #6b7d8d;
+    text-align: center;
+    line-height: 120px;
+    font-size: 0.9em;
+    margin: 16px 0;
+    border-radius: 0;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  .img-placeholder.small {
+    min-height: 80px;
+    line-height: 80px;
+  }
+  .img-placeholder.large {
+    min-height: 200px;
+    line-height: 200px;
+  }
+  /* 表格内占位符 */
+  td .img-placeholder {
+    margin: 4px 0;
+    min-height: 80px;
+    line-height: 80px;
+    font-size: 0.85em;
+  }
+</style>
+</head>
+<body>
+<div class="page">
 
+  <!-- ================= 封面 ================= -->
+  <header class="cover">
+    <h1>C 程序设计基础</h1>
+    <h2>C Programming Language · 第 1 章　概述与算法</h2>
+    <div class="meta">
+      武汉理工大学　·　主讲：孙骏　　李民　·　
+    </div>
+  </header>
+
+  <main>
+
+  <!-- =========================================================
+       第 1 节  数制
+       ========================================================= -->
+  <h2 class="chapter" id="c1">1.1　数制及相互转换</h2>
+
+  <h3 class="section" id="c1-1">1.1.1　常用数制</h3>
+
+  <p>数制（Number System）是用一组固定的符号和统一的规则来表示数值的方法。在计算机科学中，最常用的是<b>二进制</b>，此外还有<b>八进制</b>和<b>十六进制</b>作为二进制的简写形式；日常生活中人们使用<b>十进制</b>。</p>
+
+  <table>
+    <caption>表 1-1　四种常用数制对照表</caption>
+    <thead>
+      <tr><th>数制</th><th>基数</th><th>数码</th><th>进位规则</th><th>C 语言中的写法</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>二进制（B）</th><td>2</td><td>0、1</td><td>逢二进一</td><td><code class="inline">0b1101</code>（部分编译器支持）</td></tr>
+      <tr><th>八进制（O）</th><td>8</td><td>0 ~ 7</td><td>逢八进一</td><td><code class="inline">015</code>（以 0 开头）</td></tr>
+      <tr><th>十进制（D）</th><td>10</td><td>0 ~ 9</td><td>逢十进一</td><td><code class="inline">13</code></td></tr>
+      <tr><th>十六进制（H）</th><td>16</td><td>0 ~ 9、A ~ F</td><td>逢十六进一</td><td><code class="inline">0x0D</code>（以 0x 开头）</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box key">
+    <span class="label">核心思想</span>
+    任何进制数的值都可以写成「按权展开式」：
+    <br>
+    <b>N = a<sub>n</sub>×R<sup>n</sup> + … + a<sub>1</sub>×R<sup>1</sup> + a<sub>0</sub>×R<sup>0</sup> + a<sub>-1</sub>×R<sup>-1</sup> + …</b>
+    <br>
+    其中 R 为基数，a<sub>i</sub> 为该位上的数码。
+  </div>
+
+  <div class="example">
+    <div class="title">例 1-1　按权展开</div>
+    <div class="body">
+      <p>二进制数 <b>(1101.1)<sub>2</sub></b> 的十进制值为：</p>
+      <p>1×2<sup>3</sup> + 1×2<sup>2</sup> + 0×2<sup>1</sup> + 1×2<sup>0</sup> + 1×2<sup>-1</sup> = 8 + 4 + 0 + 1 + 0.5 = <b>13.5</b></p>
+      <p>十六进制数 <b>(2A)<sub>16</sub></b> 的十进制值为：</p>
+      <p>2×16<sup>1</sup> + 10×16<sup>0</sup> = 32 + 10 = <b>42</b></p>
+    </div>
+  </div>
+
+  <h3 class="section" id="c1-2">1.1.2　数制之间的转换</h3>
+
+  <h4 class="sub">（1）其他进制 → 十进制：按权展开求和</h4>
+  <p>把各位数码乘以该位的权（R<sup>i</sup>），再求和。</p>
+
+  <h4 class="sub">（2）十进制 → 其他进制：整数除基取余，小数乘基取整</h4>
+  <ul>
+    <li><b>整数部分</b>：除基数取余数，<b>逆序</b>排列（先得的余数是低位）。</li>
+    <li><b>小数部分</b>：乘基数取整数，<b>顺序</b>排列（先得的整数是高位）。</li>
+  </ul>
+
+  <div class="example">
+    <div class="title">例 1-2　十进制 45 转二进制</div>
+    <div class="body">
+      <div class="flow">45 ÷ 2 = 22 …… 余 1   ← 最低位
+22 ÷ 2 = 11 …… 余 0
+11 ÷ 2 =  5 …… 余 1
+ 5 ÷ 2 =  2 …… 余 1
+ 2 ÷ 2 =  1 …… 余 0
+ 1 ÷ 2 =  0 …… 余 1   ← 最高位
+
+自下而上读取：(45)₁₀ = (101101)₂</div>
+    </div>
+  </div>
+
+  <h4 class="sub">（3）二进制 ↔ 八进制 / 十六进制：分组法</h4>
+  <ul>
+    <li><b>二 → 八</b>：以小数点为中心，向左、向右每 <b>3 位</b>一组，不足补 0，每组换成 1 位八进制数。</li>
+    <li><b>二 → 十六</b>：以小数点为中心，向左、向右每 <b>4 位</b>一组，不足补 0，每组换成 1 位十六进制数。</li>
+    <li>反向（八/十六 → 二）则每 1 位拆成 3 位或 4 位二进制即可。</li>
+  </ul>
+
+  <div class="example">
+    <div class="title">例 1-3　分组转换</div>
+    <div class="body">
+      <p>(101101)<sub>2</sub> → 八进制：<code class="inline">101 101</code> → <b>(55)<sub>8</sub></b></p>
+      <p>(101101)<sub>2</sub> → 十六进制：<code class="inline">0010 1101</code> → <b>(2D)<sub>16</sub></b></p>
+      <p>(3F)<sub>16</sub> → 二进制：<code class="inline">3 → 0011，F → 1111</code> → <b>(00111111)<sub>2</sub></b></p>
+    </div>
+  </div>
+
+  <div class="box tip">
+    <span class="label">记忆口诀</span>
+    整数转换「除基取余、倒序读」；小数转换「乘基取整、顺序读」；二八三、二六四，分组补齐最省事。
+  </div>
+
+  <!-- =========================================================
+       第 2 节  计算机语言的发展
+       ========================================================= -->
+  <h2 class="chapter" id="c2">1.2　计算机语言的发展</h2>
+
+  <p>计算机语言是人与计算机之间交流的工具，其发展大致经历了三个阶段：<b>机器语言 → 汇编语言 → 高级语言</b>。</p>
+
+  <h3 class="section" id="c2-1">1.2.1　机器语言（Machine Language）</h3>
+
+  <div class="box">
+    <span class="label">定义</span>
+    机器语言是用<b>二进制代码</b>表示的、计算机能<b>直接识别和执行</b>的一种机器指令的集合。
+  </div>
+
+  <ul>
+    <li>机器语言是计算机<b>唯一</b>能够直接识别和运行的语言。</li>
+    <li><b>不同型号</b>的计算机，其机器语言是<b>不相通</b>的——按照一种计算机的机器指令编制的程序，不能在另一种计算机上执行（<b>不可移植</b>）。</li>
+    <li>用机器语言编写的程序称为<b>目标程序</b>，全部由 0 和 1 组成，可读性极差，编写与调试极其困难。</li>
+    <li>历史上曾用<b>穿孔纸带 / 卡片</b>上的孔位来表示二进制信息。</li>
+  </ul>
+  <div class="flow">【机器语言片段示意】
+00011110
+101110000000000000000
+01010000
+10111000110011000001111
+1000111011101000
+1011010000000110
+……</div>
+  <h3 class="section" id="c2-2">1.2.2　汇编语言（Assembly Language）</h3>
+
+  <div class="box">
+    <span class="label">定义</span>
+    汇编语言是一种用于电子计算机、微处理器、微控制器或其他可编程器件的<b>低级语言</b>，亦称为<b>符号语言</b>。
+  </div>
+
+  <ul>
+    <li>用助记符（如 <code class="inline">MOV</code>、<code class="inline">ADD</code>）代替二进制指令码，用符号地址代替绝对地址，比机器语言易读易写。</li>
+    <li>一般来说，特定的汇编语言和特定的机器语言指令集是<b>一一对应</b>的。</li>
+    <li><b>不同平台之间不可直接移植</b>。</li>
+    <li>汇编语言不能被计算机直接识别，必须经过<b>汇编程序</b>翻译成机器语言后才能执行。</li>
+  </ul>
+
+  <h3 class="section" id="c2-3">1.2.3　高级计算机语言（High-level Language）</h3>
+
+  <div class="box">
+    <span class="label">定义</span>
+    高级计算机语言是以<b>人类的日常语言</b>为基础的一种编程语言。
+  </div>
+
+  <ul>
+    <li>用高级语言编写的程序<b>可以不做改动，或只做少量改动</b>，就能在不同体系结构的计算机上运行（<b>可移植性好</b>）。</li>
+    <li>使用高级语言编写的程序称为<b>源程序</b>（Source Program）。</li>
+    <li><b>C 语言源程序是以 <code class="inline">.c</code> 结尾的文件</b>。</li>
+    <li>常见的高级语言：C、C++、Java、Python、C#、JavaScript、Kotlin、Go、PHP 等。</li>
+  </ul>
+
+  <h4 class="sub">C 语言源程序片段示例</h4>
+  <pre><span class="kw">if</span> (x &gt;= <span class="str">1</span> &amp;&amp; x &lt;= <span class="str">3</span>) {
+    <span class="kw">if</span> (y &gt;= <span class="str">1</span> &amp;&amp; y &lt;= <span class="str">3</span>)
+        h = <span class="str">5</span>;
+    <span class="kw">else if</span> (y &lt;= -<span class="str">1</span> &amp;&amp; y &gt;= -<span class="str">3</span>)
+        h = <span class="str">18</span>;
+} <span class="kw">else if</span> (x &lt;= -<span class="str">1</span> &amp;&amp; x &gt;= -<span class="str">3</span>) {
+    <span class="kw">if</span> (y &gt;= <span class="str">1</span> &amp;&amp; y &lt;= <span class="str">3</span>)
+        h = <span class="str">7</span>;
+    <span class="kw">else if</span> (y &lt;= -<span class="str">1</span> &amp;&amp; y &gt;= -<span class="str">3</span>)
+        h = <span class="str">10</span>;
+}</pre>
+
+  <h3 class="section" id="c2-4">1.2.4　翻译高级计算机语言的两种方式</h3>
+
+  <p>高级语言书写的源程序，计算机无法直接识别，必须"翻译"成机器语言。翻译方式有两种：<b>解释</b>与<b>编译</b>。</p>
+
+  <table>
+    <caption>表 1-2　解释方式与编译方式对比</caption>
+    <thead>
+      <tr><th>比较项</th><th>解释（Interpretation）</th><th>编译（Compilation）</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>工作方式</th><td><b>一边翻译，一边运行</b></td><td><b>翻译完成后，再运行</b></td></tr>
+      <tr><th>中间产物</th><td>不产生目标文件</td><td>翻译完成后形成 <code class="inline">.obj</code> 文件，称为<b>目标文件</b></td></tr>
+      <tr><th>后续步骤</th><td>逐句解释执行</td><td>链接相关文件后，形成 <code class="inline">.exe</code> 文件，即<b>可执行文件</b></td></tr>
+      <tr><th>运行效率</th><td>较低（每次运行都要重新翻译）</td><td>较高（一次翻译，多次运行）</td></tr>
+      <tr><th>典型语言</th><td>Python、JavaScript、早期 BASIC</td><td>C、C++、Java（先编译为字节码）</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box tip">
+    <span class="label">C 程序的编译流程</span>
+    源程序 <code class="inline">.c</code> →（编译）→ 目标文件 <code class="inline">.obj</code> →（链接）→ 可执行文件 <code class="inline">.exe</code> →（运行）→ 结果
+  </div>
+
+  <h3 class="section" id="c2-5">1.2.5　三种语言的关系</h3>
+
+  <table>
+    <caption>表 1-3　三种语言的特点对照</caption>
+    <thead>
+      <tr><th>语言</th><th>计算机能否直接识别</th><th>人能否容易理解</th><th>可移植性</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>机器语言</th><td>能（唯一能直接识别）</td><td>普通人无法理解</td><td>差</td></tr>
+      <tr><th>汇编语言</th><td>不能</td><td>少部分专业人士可以理解，多数人不会使用</td><td>较差</td></tr>
+      <tr><th>高级语言</th><td>不能</td><td>多数人可以理解和使用</td><td>好</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box key">
+    <span class="label">一句话总结</span>
+    <ul style="margin:6px 0 0 0;">
+      <li>机器语言：计算机<b>唯一能识别</b>，但普通人<b>无法理解</b>。</li>
+      <li>汇编语言：少部分专业人士可以理解，但计算机<b>无法识别</b>。</li>
+      <li>高级语言：多数人可以理解和使用，但计算机<b>无法识别</b>，必须翻译。</li>
+    </ul>
+  </div>
+
+  <!-- =========================================================
+       第 3 节  程序设计的基本方法
+       ========================================================= -->
+  <h2 class="chapter" id="c3">1.3　设计计算机程序的基本方法</h2>
+
+  <p>从问题到"问题得解"，一般要经过四个步骤：</p>
+
+  <table>
+    <caption>表 1-4　程序设计的基本流程</caption>
+    <thead>
+      <tr><th>步骤</th><th>名称</th><th>主要任务</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>01</th><td>分析</td><td>认真分析具体问题，找出其逻辑</td></tr>
+      <tr><th>02</th><td>抽象</td><td>按照逻辑，将其抽象出相应的逻辑模型</td></tr>
+      <tr><th>03</th><td>设计</td><td>按逻辑模型，设计出合适的算法</td></tr>
+      <tr><th>04</th><td>编制</td><td>依照算法，寻找合适的程序设计语言，编写程序</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="section" id="c3-1">1.3.1　算法的概念和特点</h3>
+
+  <h4 class="sub">（1）算法的概念</h4>
+  <div class="box key">
+    <span class="label">算法（Algorithm）</span>
+    对解题方案<b>准确而完整</b>的一系列<b>清晰有序</b>的指令。
+    <br>
+    <i>An algorithm is a step by step process used to carry out some function.</i>
+  </div>
+
+  <p>算法并不是计算机的专利——生活中处处有算法，例如菜谱、乐谱、银行取款流程、字典查字方法等，都是"算法"。</p>
+
+  <h4 class="sub">（2）算法的评价</h4>
+  <p>算法的优劣可以用<b>空间复杂度</b>与<b>时间复杂度</b>来衡量。</p>
+  <ul>
+    <li><b>时间复杂度</b>：算法执行所耗费的时间，反映运行效率。</li>
+    <li><b>空间复杂度</b>：算法执行所耗费的存储空间，反映内存占用。</li>
+  </ul>
+
+  <h4 class="sub">（3）算法的五个特点</h4>
+
+  <table>
+    <caption>表 1-5　算法的五大特点</caption>
+    <thead>
+      <tr><th>特点</th><th>含义</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>有穷性（有限性）</th><td>算法必须在执行有限步之后结束，不能无限循环下去</td></tr>
+      <tr><th>确定性</th><td>每一步的含义必须是明确无歧义的，同样的输入必得同样的输出</td></tr>
+      <tr><th>有效性</th><td>算法中的每一个步骤都应当是有效的、能够被实际执行的</td></tr>
+      <tr><th>有 0 ~ n 个输入</th><td>算法可以有零个或多个输入</td></tr>
+      <tr><th>有 1 ~ n 个输出</th><td>算法至少有一个输出，否则算法没有意义</td></tr>
+    </tbody>
+  </table>
+
+  <div class="example">
+    <div class="title">例 1-4　求 M = 5！</div>
+    <div class="body">
+      <p><b>通常方法（人工计算）：</b></p>
+      <div class="flow">计算 1*2 得 2
+     2*3 得 6
+     6*4 得 24
+     24*5 得 120</div>
+
+      <p><b>计算机使用的方法（算法描述）：</b></p>
+      <ol>
+        <li>设定变量 M，M 初值为 1；设定变量 i，初值为 2。</li>
+        <li>如果 i 的值小于 6，则执行 (3)；否则执行 (4)。</li>
+        <li>将 M 乘以 i 并置于 M 中存放；将 i 中的值加 1 并置于 i 中存放。再执行 (2)。</li>
+        <li>将 M 中的值输出。</li>
+      </ol>
+
+      <p><b>算法执行过程追踪：</b></p>
+      <table>
+        <thead><tr><th>轮次</th><th>M</th><th>i</th><th>条件 i&lt;6</th><th>操作</th></tr></thead>
+        <tbody>
+          <tr><td>初始</td><td>1</td><td>2</td><td>真</td><td>M = 1×2 = 2，i = 3</td></tr>
+          <tr><td>第 2 轮</td><td>2</td><td>3</td><td>真</td><td>M = 2×3 = 6，i = 4</td></tr>
+          <tr><td>第 3 轮</td><td>6</td><td>4</td><td>真</td><td>M = 6×4 = 24，i = 5</td></tr>
+          <tr><td>第 4 轮</td><td>24</td><td>5</td><td>真</td><td>M = 24×5 = 120，i = 6</td></tr>
+          <tr><td>第 5 轮</td><td>120</td><td>6</td><td>假</td><td>输出 M = 120，结束</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h3 class="section" id="c3-2">1.3.2　算法的表示</h3>
+
+  <p>表示一个算法的方法很多，常用的有：<b>自然语言法</b>、<b>传统流程图法</b>、<b>N-S 流程图法</b>、<b>伪代码法（pseudo-code）</b>等。</p>
+
+  <h4 class="sub">（1）自然语言法</h4>
+  <p>用日常语言描述算法，通俗易懂，但容易出现歧义、冗长，且难以表达分支和循环。</p>
+
+  <h4 class="sub">（2）伪代码法（pseudo-code）</h4>
+  <p>介于自然语言和计算机语言之间的文字与符号，不拘泥于语法细节，便于向程序过渡。</p>
+
+  <div class="example">
+    <div class="title">例 1-5　求 5！的伪代码表示</div>
+    <div class="body">
+      <div class="flow">(1) M = 1
+(2) i = 2
+(3) while i &lt;= 5
+(4)     M * i  →  M
+(5)     i + 1  →  i
+(6) end while
+(7) print M</div>
+      <p>其中 <code class="inline">→</code> 表示"赋值"，即把计算结果送到相应变量中。</p>
+    </div>
+  </div>
+
+  <h4 class="sub">（3）传统流程图法</h4>
+
+  <p>用规定的图形符号描述算法的执行流程，直观形象，便于发现逻辑错误。</p>
+
+  <table>
+    <caption>表 1-6　传统流程图基本图形及其含义</caption>
+    <thead>
+      <tr><th>图形名称</th><th>形状</th><th>说明</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>处理框</th><td>矩形</td><td>表示确定的处理或步骤，又称矩形框</td></tr>
+      <tr><th>判断框</th><td>菱形</td><td>允许有 1 个入口，2 个或 2 个以上的可选择的出口</td></tr>
+      <tr><th>输入输出框</th><td>平行四边形</td><td>表示数据的输入或经处理后结果的输出</td></tr>
+      <tr><th>起始结束框</th><td>圆角矩形 / 椭圆</td><td>表示算法的开始或结束</td></tr>
+      <tr><th>连接点</th><td>小圆圈</td><td>成对出现，用于将不同的流程线连接起来</td></tr>
+      <tr><th>功能调用框</th><td>双边矩形</td><td>表示调用 1 个处理过程</td></tr>
+      <tr><th>流程线</th><td>带箭头直线</td><td>表示算法中处理流程的走向</td></tr>
+      <tr><th>注释框</th><td>侧边开口框</td><td>用于说明信息</td></tr>
+    </tbody>
+  </table>
+
+  <div class="example">
+    <div class="title">例 1-6　求 5！的传统流程图</div>
+    <div class="body">
+      <!-- 图片占位：求5!传统流程图 -->
+      <div class="img-placeholder large"><img src="5的阶层-传统流程图.png" alt="求5!的传统流程图" style="width:100%; max-width:250px; display:block; margin:16px auto;"></div>
+    </div>
+  </div>
+
+  <h4 class="sub">（4）N-S 流程图法</h4>
+  <p>N-S 流程图（盒图）去掉了流程线，全部算法写在一个矩形框内，由若干基本框组成，强迫设计者按结构化方式思考。</p>
+
+  <div class="example">
+    <div class="title">例 1-7　求 5！的 N-S 流程图</div>
+    <div class="body">
+      <!-- 图片占位：求5!N-S流程图 -->
+      <div class="img-placeholder large"><img src="5的阶层-NS流程图.png" alt="求5!的N-S流程图" style="width:100%; max-width:200px; display:block; margin:16px auto;"></div>
+    </div>
+  </div>
+N-S
+  <h3 class="section" id="c3-3">1.3.3　结构化程序设计方法</h3>
+
+  <div class="box key">
+    <span class="label">结构化程序设计方法</span>
+    一种传统的、广泛应用的软件开发方法，由荷兰计算机科学家 <b>Edsger W. Dijkstra</b> 在 <b>1960 年代</b>提出。它强调程序的<b>结构清晰性</b>和<b>可维护性</b>，旨在克服程序设计中无规律跳转和复杂逻辑带来的问题。
+  </div>
+
+  <div class="box warn">
+    <span class="label">Dijkstra 名言（1984）</span>
+    "Simplicity is a great virtue but it requires hard work to achieve it and education to appreciate it. And to make matters worse: complexity sells better."
+    <br>（简洁是一种伟大的美德，但它需要努力才能达到，也需要修养才能欣赏。更糟的是：复杂往往更畅销。）
+  </div>
+
+  <h4 class="sub">三种基本结构</h4>
+  <p>为限制使用无条件转移语句（如 <code class="inline">goto</code> 语句），使用<b>顺序、选择、循环</b>三种基本结构来构建程序。任何复杂的算法都可以由这三种基本结构组合而成。</p>
+
+  <table>
+    <caption>表 1-7　三种基本结构对照表</caption>
+    <thead>
+      <tr><th>结构名称</th><th>传统流程图</th><th>N-S 流程图</th><th>说明</th><th>备注</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>顺序结构</th>
+        <td><!-- 图片占位 -->
+          <div class="img-placeholder small"><img src="传统流程图-顺序结构.png"  style="width:100%; max-width:200px; display:block; margin:16px auto;"></div>
+        </td>
+        <td><!-- 图片占位 -->
+          <div class="img-placeholder small"><img src="NS流程图-顺序结构.png"  style="width:100%; max-width:200px; display:block; margin:16px auto;"></div>
+        </td>
+        <td>A → B（依次执行）</td>
+        <td>按书写顺序依次执行，最简单的一种结构</td>
+      </tr>
+      <tr>
+        <th>选择结构<br>（分支结构）</th>
+        <td><!-- 图片占位 -->
+          <div class="img-placeholder small"><img src="传统流程图-选择结构.png"  style="width:100%; max-width:200px; display:block; margin:16px auto;"></div>
+        </td>
+        <td><!-- 图片占位 -->
+          <div class="img-placeholder small"><img src="NS流程图-选择结构.png"  style="width:100%; max-width:200px; display:block; margin:16px auto;"></div>
+        </td>
+        <td>判断框 P：满足走 A 分支，不满足走 B 分支</td>
+        <td>根据条件是否成立，选择执行不同的分支</td>
+      </tr>
+      <tr>
+        <th>当型循环结构<br>（前测试循环）</th>
+        <td><!-- 图片占位 -->
+          <div class="img-placeholder small"><img src="传统流程图-前测试循环结构.png"  style="width:100%; max-width:200px; display:block; margin:16px auto;"></div>
+        </td>
+        <td><!-- 图片占位 -->
+          <div class="img-placeholder small"><img src="NS流程图-前测试循环结构.png"  style="width:100%; max-width:200px; display:block; margin:16px auto;"></div>
+        </td>
+        <td>先判断 P，为真则执行循环体 A，再回到判断</td>
+        <td>先判断后执行，可能一次也不执行循环体</td>
+      </tr>
+      <tr>
+        <th>直到型循环结构<br>（后测试循环）</th>
+        <td><!-- 图片占位 -->
+          <div class="img-placeholder small"><img src="传统流程图-后测试循环结构.png"  style="width:100%; max-width:200px; display:block; margin:16px auto;"></div>
+        </td>
+        <td><!-- 图片占位 -->
+          <div class="img-placeholder small"><img src="NS流程图-后测试循环结构.png"  style="width:100%; max-width:200px; display:block; margin:16px auto;"></div>
+        </td>
+        <td>先执行循环体 A，再判断 P，为假则继续循环</td>
+        <td>先执行后判断，循环体至少执行一次</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="box tip">
+    <span class="label">三种基本结构的特点</span>
+    <ul style="margin:6px 0 0 0;">
+      <li>只有<b>一个入口和一个出口</b>；</li>
+      <li>结构内的每一部分都有机会被执行到；</li>
+      <li>结构内<b>不存在死循环</b>。</li>
+    </ul>
+  </div>
+
+  <!-- =========================================================
+       第 4 节  第一个 C 程序
+       ========================================================= -->
+  <h2 class="chapter" id="c4">1.4　第一个 C 程序：输出（打印）一行文本</h2>
+
+  <div class="example">
+    <div class="title">例 1-8　第一个 C 程序（fig01_01.c）</div>
+    <div class="body">
+<pre><span class="cmt">1  /* Fig. 1.1: fig01_01.c
+2     A first program in C */</span>
+<span class="cmt">3</span>  <span class="kw">#include</span> <span class="str">&lt;stdio.h&gt;</span>
+<span class="cmt">4</span>
+<span class="cmt">5</span>  <span class="kw">int</span> main()
+<span class="cmt">6</span>  {
+<span class="cmt">7</span>      printf( <span class="str">"Welcome to C!\n"</span> );
+<span class="cmt">8</span>
+<span class="cmt">9</span>      <span class="kw">return</span> 0;
+<span class="cmt">10</span> }</pre>
+      <p><b>运行结果：</b></p>
+      <div class="flow">Welcome to C!
+Process returned 0 (0x0)   execution time : 0.042 s
+Press any key to continue.</div>
+    </div>
+  </div>
+
+  <h3 class="section" id="c4-1">1.4.1　程序逐行解析</h3>
+
+  <h4 class="sub">（1）注释（Comments）</h4>
+  <ul>
+    <li>C 语言系统编译时，<b>忽略</b>介于 <code class="inline">/*</code> 与 <code class="inline">*/</code> 之间的文本，使用一个空格替代。</li>
+    <li><code class="inline">//</code> 表示<b>从这里开始到本行末尾</b>为注释（行注释）。</li>
+    <li>注释常用于描述源程序的说明（版权、功能……），以及代码段的算法思路。</li>
+    <li><b>注释是写给程序员看的，不编译、不运行，C 系统不 care。</b></li>
+  </ul>
+
+  <h4 class="sub">（2）预处理器指令（Preprocessor Directive）</h4>
+  <ul>
+    <li><code class="inline">#include</code>：从源文件外部加载其他文件。</li>
+    <li><code class="inline">&lt;stdio.h&gt;</code>：<b>标准输入输出头文件</b>（standard input/output header），包含标准输入输出操作的相关声明（如 <code class="inline">printf</code>、<code class="inline">scanf</code>）。</li>
+    <li>预处理器指令一般以 <code class="inline">#</code> 开头，<b>行尾不加分号</b>。</li>
+  </ul>
+
+  <h4 class="sub">（3）int main() —— 主函数</h4>
+  <ul>
+    <li>C 程序由一个以上的函数组成，其中有且<b>仅有一个 main 函数</b>，程序总是从 main 函数开始执行。</li>
+    <li>圆括号（Parenthesis）表明这是一个<b>函数</b>。</li>
+    <li><code class="inline">int</code> 表明 main 函数将<b>返回（return）一个整型（integer）数据</b>。</li>
+  </ul>
+
+  <h4 class="sub">（4）花括号（Braces <code class="inline">{ }</code>）</h4>
+  <ul>
+    <li>标明一个<b>功能块</b>。函数体应该置于一对花括号中。</li>
+    <li><b>左侧花括号</b> <code class="inline">{</code>：表示函数体开始。</li>
+    <li><b>右侧花括号</b> <code class="inline">}</code>：表示功能（函数）结束。</li>
+  </ul>
+
+  <h4 class="sub">（5）printf 语句与转义字符</h4>
+  <ul>
+    <li><code class="inline">printf( "Welcome to C!\n" );</code> 整行称为一条<b>语句（statement）</b>。</li>
+    <li>语句由<b>分号（; semicolon）</b>结尾。</li>
+    <li>语句引导计算机执行一个<b>操作（action）</b>。</li>
+    <li>上述语句表明：将一对<b>双引号（" "）</b>内的字符序列输出（显示）到屏幕上。</li>
+    <li><code class="inline">\n</code> <b>不是两个字符</b>，而是一个字符，称为<b>转义字符</b>（Escape Character）。反斜杠 <code class="inline">\</code> 表示 printf 应做一些"超出常规"的事情。</li>
+    <li><code class="inline">\n</code>：<b>换行符</b>（newline character），使输出光标移到下一行行首。</li>
+  </ul>
+
+  <table>
+    <caption>表 1-8　常用转义字符</caption>
+    <thead>
+      <tr><th>转义字符</th><th>含义</th><th>转义字符</th><th>含义</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code class="inline">\n</code></td><td>换行</td><td><code class="inline">\\</code></td><td>反斜杠本身</td></tr>
+      <tr><td><code class="inline">\t</code></td><td>水平制表（Tab）</td><td><code class="inline">\'</code></td><td>单引号</td></tr>
+      <tr><td><code class="inline">\r</code></td><td>回车</td><td><code class="inline">\"</code></td><td>双引号</td></tr>
+      <tr><td><code class="inline">\0</code></td><td>空字符（NULL）</td><td><code class="inline">\ddd</code></td><td>1~3 位八进制数所代表的字符</td></tr>
+      <tr><td><code class="inline">\b</code></td><td>退格</td><td><code class="inline">\xhh</code></td><td>十六进制数所代表的字符</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box warn">
+    <span class="label">常见错误</span>
+    <ul style="margin:6px 0 0 0;">
+      <li>语句末尾漏写分号 <code class="inline">;</code>。</li>
+      <li>使用了中文全角引号 <code class="inline">“ ”</code> 或中文分号 <code class="inline">；</code>。</li>
+      <li>花括号不配对。</li>
+      <li>函数名写成了 <code class="inline">Main</code>、<code class="inline">mian</code> 等（C 语言区分大小写）。</li>
+    </ul>
+  </div>
+
+  <h4 class="sub">（6）return 0; —— 退出函数</h4>
+  <ul>
+    <li>在 main 函数中，<code class="inline">return 0;</code> 表示<b>程序正常结束（退出）</b>。</li>
+    <li>返回值 0 通常约定为"程序成功执行"。</li>
+  </ul>
+
+  <h3 class="section" id="c4-2">1.4.2　C 源程序的结构</h3>
+
+  <div class="box">
+    <span class="label">基本框架</span>
+<pre style="margin:8px 0 0 0;"><span class="kw">#include</span> <span class="str">&lt;stdio.h&gt;</span>
+
+<span class="kw">int</span> main()
+{
+    <span class="cmt">// 添加功能</span>
+
+    <span class="kw">return</span> 0;
+}</pre>
+  </div>
+
+  <p>一个 C <b>工程</b>中通常包含多个文件：</p>
+  <ul>
+    <li><b>头文件</b>（如 <code class="inline">y.h</code>）：存放函数声明、宏定义等；</li>
+    <li><b>源文件</b>（如 <code class="inline">q.c</code>、<code class="inline">r.c</code>、<code class="inline">k.c</code>）：存放函数定义；</li>
+    <li>C 语言程序工程下有且仅有<b>一个 main 函数</b>。</li>
+  </ul>
+
+  <!-- 图片占位：C工程结构图 -->
+  <div class="img-placeholder large"><img src="C工程结构图.png" alt="C程序工程结构图" style="width:100%; max-width:650px; display:block; margin:16px auto;"></div>
+
+  <div class="example">
+    <div class="title">例 1-9　输出图形（课后作业题）</div>
+    <div class="body">
+      <p><b>要求：</b>输出下列两个图形。</p>
+      <div class="flow" style="display:flex;gap:60px;justify-content:flex-start;">
+      <div>  图1
+    *
+   **
+  ***
+ ****
+*****</div>
+      <div>  图2
+    *
+   ***
+  *****
+ *******
+*********</div>
+      </div>
+
+      <p><b>参考答案（图 1）：</b></p>
+<pre><span class="cmt">//图1
+//学号_姓名.c
+//功能：输出一个直角三角形图案</span>
+<span class="kw">#include</span> <span class="str">&lt;stdio.h&gt;</span>
+
+<span class="kw">int</span> main( <span class="kw">void</span> )
+{
+    printf(<span class="str">"    *\n"</span>);
+    printf(<span class="str">"   **\n"</span>);
+    printf(<span class="str">"  ***\n"</span>);
+    printf(<span class="str">" ****\n"</span>);
+    printf(<span class="str">"*****\n"</span>);
+    <span class="kw">return</span> 0;
+}</pre>
+
+      <p><b>参考答案（图 2）：</b></p>
+<pre><span class="cmt">//图2
+//学号_姓名.c
+//功能：输出一个等腰三角形（金字塔）图案</span>
+<span class="kw">#include</span> <span class="str">&lt;stdio.h&gt;</span>
+
+<span class="kw">int</span> main( <span class="kw">void</span> )
+{
+    printf(<span class="str">"    *\n"</span>);
+    printf(<span class="str">"   ***\n"</span>);
+    printf(<span class="str">"  *****\n"</span>);
+    printf(<span class="str">" *******\n"</span>);
+    printf(<span class="str">"*********\n"</span>);
+    <span class="kw">return</span> 0;
+}</pre>
+
+      <p><b>参考答案（图 1 + 图 2 并排输出）：</b></p>
+<pre><span class="kw">#include</span> <span class="str">&lt;stdio.h&gt;</span>
+
+<span class="kw">int</span> main( <span class="kw">void</span> )
+{
+    printf(<span class="str">"    *\t    *\n"</span>);
+    printf(<span class="str">"   **\t   ***\n"</span>);
+    printf(<span class="str">"  ***\t  *****\n"</span>);
+    printf(<span class="str">" ****\t *******\n"</span>);
+    printf(<span class="str">"*****\t*********\n"</span>);
+    <span class="kw">return</span> 0;
+}</pre>
+
+      <div class="box tip">
+        <span class="label">作业要求</span>
+        下次课前，在 PTA 提交代码。要求在注释部分标明：<b>1）学号_姓名.c；2）程序的功能</b>。
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       综合例题
+       ========================================================= -->
+  <h2 class="chapter" id="c5">综合例题</h2>
+
+  <div class="example">
+    <div class="title">例 1-10　计算表达式并输出</div>
+    <div class="body">
+      <p><b>要求：</b>输出下列计算结果。</p>
+      <div class="flow">3+5=8
+78-49=29</div>
+
+      <p><b>方法一：直接输出字符串（简单但不通用）</b></p>
+<pre><span class="cmt">/* Fig. 1.2: computing.c */</span>
+<span class="kw">#include</span> <span class="str">&lt;stdio.h&gt;</span>
+
+<span class="kw">int</span> main()
+{
+    printf(<span class="str">"3+5=8\n"</span>);
+    printf(<span class="str">"78-49=29\n"</span>);
+    <span class="kw">return</span> 0;
+}</pre>
+
+      <p><b>方法二：用 <code class="inline">%d</code> 占位符，让计算机自己算（推荐）</b></p>
+<pre><span class="cmt">/* Fig. 1.2: computing.c */</span>
+<span class="kw">#include</span> <span class="str">&lt;stdio.h&gt;</span>
+
+<span class="kw">int</span> main()
+{
+    printf(<span class="str">"3+5=%d\n"</span>, 3 + 5);
+    printf(<span class="str">"78-49=%d\n"</span>, 78 - 49);
+    <span class="kw">return</span> 0;
+}</pre>
+
+      <p>其中 <code class="inline">%d</code> 是<b>整型占位符</b>，它告诉 printf：这里要输出一个十进制整数，具体数值由逗号后面的表达式给出。</p>
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="title">例 1-11　输入年份，显示问好</div>
+    <div class="body">
+      <p><b>要求：</b>编写程序，输入年份，显示问好。例如输入 2018，显示"你好,2018"。</p>
+
+      <p><b>❌ 错误写法 1：把变量名写在双引号里面</b></p>
+<pre><span class="kw">printf</span>(<span class="str">"你好, year"</span>);   <span class="cmt">// 输出：你好, year</span></pre>
+      <p>双引号内的 <code class="inline">year</code> 只是一串普通字符，不会被当作变量处理。</p>
+
+      <p><b>❌ 错误写法 2：占位符与参数位置/个数不匹配</b></p>
+<pre><span class="kw">printf</span>(<span class="str">"你好, "</span>, year );   <span class="cmt">// 没有占位符，year 不会被输出</span></pre>
+
+      <p><b>✅ 正确写法：使用占位符 %d</b></p>
+<pre><span class="kw">#include</span> <span class="str">&lt;stdio.h&gt;</span>
+
+<span class="kw">int</span> main()
+{
+    <span class="kw">int</span> year;
+    scanf(<span class="str">"%d"</span>, &amp;year);          <span class="cmt">// 输入年份</span>
+    printf(<span class="str">"你好, %d"</span>, year);      <span class="cmt">// %d 是占位符，year 是要输出的结果</span>
+    <span class="kw">return</span> 0;
+}</pre>
+
+      <p><b>运行示例：</b></p>
+      <div class="flow">输入：2020
+输出：你好,2020
+
+输入：2004
+输出：你好,2004</div>
+
+      <div class="box key">
+        <span class="label">要点</span>
+        <ul style="margin:6px 0 0 0;">
+          <li><code class="inline">scanf("%d", &amp;year);</code> 中的 <code class="inline">&amp;</code> 是<b>取地址符</b>，表示把输入的值存放到变量 year 的地址中，<b>不能省略</b>。</li>
+          <li><code class="inline">printf("你好, %d", year);</code> 中的 <code class="inline">%d</code> 是<b>占位符</b>，<code class="inline">year</code> 是<b>要输出的结果</b>，二者<b>一一对应</b>。</li>
+          <li>双引号内除了占位符以外的内容，都会<b>原样输出</b>。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+
+  
+
+  <div class="box keysummary">
+    <span class="label">本章小结</span>
+    <ol style="margin:6px 0 0 0;">
+      <li>掌握常用数制（二、八、十、十六）及其相互转换方法。</li>
+      <li>了解计算机语言发展的三个阶段：机器语言 → 汇编语言 → 高级语言，以及三种语言各自的特点与相互关系。</li>
+      <li>掌握高级语言的两种翻译方式：解释与编译，以及 C 程序从 <code class="inline"><b>.c</b></code> → <code class="inline"><b>.obj</b></code> → <code class="inline"><b>.exe</b></code> 的过程。</li>
+      <li>掌握算法的概念、五个特点、评价标准，以及四种表示方法（自然语言、伪代码、传统流程图、N-S 流程图）。</li>
+      <li>掌握结构化程序设计的三种基本结构：顺序、选择、循环。</li>
+      <li>能够编写、编译并运行第一个 C 程序，理解注释、预处理指令、main 函数、花括号、语句、转义字符 <code class="inline"><b>\n</b></code>、返回值等基本概念，并会使用 <code class="inline"><b>printf</b></code> 与 <code class="inline"><b>scanf</b></code> 完成简单的输入输出。</li>
+    </ol>
+  </div>
+
+  <a class="backtop" href="#top">↑ 返回顶部</a>
+
+  </main>
+
+  <footer>
+    C 程序设计基础 · 第 1 章 概述与算法 · 讲义<br>
+    武汉理工大学　主讲：孙骏　| 本讲义依据课件《hour 1-1 概述+算法》与《hour 2-1 第 1 个程序》整理
+  </footer>
+</div>
+</body>
+</html>
